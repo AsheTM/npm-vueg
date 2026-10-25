@@ -7,14 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-10-25
+
+First release, for **Vue 2**.
+
 ### Added
-- `vueg component --name Card [flags]` generates a Vue 2 component through [vuegc](https://github.com/AsheTM/npm-vuegc) (`^1.4.0`): every vuegc flag, same behavior, messages and exit codes ([#5](https://github.com/AsheTM/npm-vueg/issues/5)).
-- `vueg` command, imported from the unfinished `viu` command of [vuegc](https://github.com/AsheTM/npm-vuegc): `vueg` and `vueg component` show their help ([#1](https://github.com/AsheTM/npm-vueg/issues/1)).
-- Service and service test templates in `template/`.
-- An unknown command fails with exit code `1` and lists the commands ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
+- `vueg` command (package `@ashetm/vueg`), started from the unfinished `viu` command of [vuegc](https://github.com/AsheTM/npm-vuegc) ([#1](https://github.com/AsheTM/npm-vueg/issues/1)).
+- `vueg component --name Card [flags]` generates a Vue 2 component through vuegc (`^1.4.0`): every vuegc flag, same behavior, messages and exit codes, and the same files ([#5](https://github.com/AsheTM/npm-vueg/issues/5)).
+- Help: `vueg`, `vueg help`, `--help`, `-h`; `vueg component` alone or with `--help`. An unknown command fails with exit code `1` and lists the commands ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
+- README: install, commands, flags, examples ([#7](https://github.com/AsheTM/npm-vueg/issues/7)).
+- Written in TypeScript, compiled to `dist/` (the only published folder); tested with Vitest, including parity tests with the vuegc command ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
 
-### Changed
-- Rewritten in TypeScript: sources in `src/`, compiled by `tsc` to `dist/` (only `dist/` is published); tests with Vitest ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
-- README: install, commands, `vueg component` flags and examples, real generated output, versions, development ([#7](https://github.com/AsheTM/npm-vueg/issues/7)).
-
-[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/main...develop
+[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/v1.0.0...develop
+[1.0.0]: https://github.com/AsheTM/npm-vueg/releases/tag/v1.0.0

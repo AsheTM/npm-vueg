@@ -1,6 +1,6 @@
 {
   "name": "@ashetm/vueg",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "CLI to generate files in a Vue project: components, views, services",
   "main": "dist/vueg.js",
   "bin": {
