@@ -2,16 +2,21 @@
   "name": "@ashetm/vueg",
   "version": "0.0.0",
   "description": "CLI to generate files in a Vue project: components, views, services",
-  "main": "vueg.js",
+  "main": "dist/vueg.js",
   "bin": {
-    "vueg": "vueg.js"
+    "vueg": "dist/vueg.js"
   },
   "files": [
-    "vueg.js",
-    "services/",
-    "template/",
+    "dist/",
     "CHANGELOG.md"
   ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "pretest": "npm run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepack": "npm run build"
+  },
   "keywords": [
     "vue",
     "generate",
@@ -31,5 +36,10 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
   }
 }
