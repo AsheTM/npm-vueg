@@ -44,6 +44,6 @@
     "vitest": "^5.0.5"
   },
   "dependencies": {
-    "vuegc": "^1.4.0"
+    "vuegc": "^2.0.0"
   }
 }

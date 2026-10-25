@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `vueg component` and `vueg view` accept vuegc 2's new flags: `--emits`, `--options` (Options API), `--ts` ([#17](https://github.com/AsheTM/npm-vueg/issues/17)).
+- `vueg view` works with **Vue Router 4** (`createRouter({ routes: [...] })`, `RouteRecordRaw[]`), and names the route like the router does: `'userProfile'` when the existing names are lowercase (create-vue: `'home'`, `'about'`), `'UserProfile'` otherwise ([#17](https://github.com/AsheTM/npm-vueg/issues/17)).
+
+### Changed
+- **BREAKING**: relies on [vuegc](https://github.com/AsheTM/npm-vuegc) `^2.0.0`, so vueg 2 generates **Vue 3** components (Vue 3 projects only, `css` and `<script setup>` by default). For Vue 2, use vueg 1 (`npm install -g @ashetm/vueg@1`, `1.x` branch) ([#17](https://github.com/AsheTM/npm-vueg/issues/17)).
+
 ## [1.1.0] - 2026-10-25
 
 ### Added

@@ -6,13 +6,13 @@ __     ___   _ _____ ____
    \_/   \___/|_____\____|
 `;
 
-const FLAGS = "[--scoped [true|false]] [--style css] [--path folder] [--blank] [--force] [--dry-run] [--no-template|--no-script|--no-style] [--props title,items] [--module]";
+const FLAGS = "[--scoped [true|false]] [--style scss] [--path folder] [--blank] [--force] [--dry-run] [--no-template|--no-script|--no-style] [--props title,items] [--emits update,close] [--module] [--options] [--ts]";
 
 /** Flags shared by `vueg component` and `vueg view`; only `--path` differs. */
 function optionalFlags(pathLine: string): string {
     return `Optional flag(s):
 --scoped:   Boolean for scoped tag on style inside the file.vue [Default: true]
---style:    Pre-processor CSS [Default: scss] [Value supported: css, scss, sass, less, stylus]
+--style:    Pre-processor CSS [Default: css] [Value supported: css, scss, sass, less, stylus]
 --path:     ${ pathLine }
 --blank:    Empty template and style, without the demo content [Default: false]
 --force:    Overwrite the file if it already exists [Default: false]
@@ -20,7 +20,10 @@ function optionalFlags(pathLine: string): string {
 --no-template, --no-script, --no-style:
             Leave the section out (at least one must remain) [Default: false]
 --props:    Comma-separated prop names, declared with an open type [Default: none]
---module:   CSS modules (<style module> + $style) instead of scoped [Default: false]`;
+--emits:    Comma-separated event names, e.g. update:modelValue [Default: none]
+--module:   CSS modules (<style module> + $style) instead of scoped [Default: false]
+--options:  Options API (export default { ... }) instead of <script setup> [Default: false]
+--ts:       TypeScript (lang="ts"): typed props and events [Default: false]`;
 }
 
 /** Help of `vueg`: the list of commands. */

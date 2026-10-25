@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
 import { viewOptions } from "../src/view";
-import { VUEG, VUE_CLI_ROUTER, addRouter, createVueProject, removeFolder, runScript, readComponent } from "./support/vue-project";
+import { VUEG, VUE_ROUTER, addRouter, createVueProject, removeFolder, runScript, readComponent } from "./support/vue-project";
 
 const readRouter = (project: string) => fs.readFileSync(path.join(project, "src", "router", "index.js"), "utf-8");
 
@@ -57,13 +57,13 @@ describe("vueg view (CLI)", () => {
 
         expect(status).toBe(0);
         expect(stdout).toMatch(/Generating vue component success/);
-        expect(readComponent(project, "views/Dashboard.vue")).toMatch(/name: "Dashboard"/);
+        expect(readComponent(project, "views/Dashboard.vue")).toMatch(/id="Dashboard"/);
         expect(readComponent(project, "Dashboard.vue")).toBeNull();
     });
 
     it("creates the --path sub-folder of views/", () => {
         expect(runScript(VUEG, project, ["view", "--name", "Users", "--path", "admin"]).status).toBe(0);
-        expect(readComponent(project, "views/admin/Users.vue")).toMatch(/name: "Users"/);
+        expect(readComponent(project, "views/admin/Users.vue")).toMatch(/id="Users"/);
     });
 
     it("produces the same file as vuegc --path views", () => {
@@ -84,7 +84,7 @@ describe("vueg view (CLI)", () => {
         expect(status).toBe(1);
         expect(stdout).toMatch(message);
         expect(fs.readdirSync(path.join(project, "src")).sort()).toEqual(["App.vue", "main.js", "router"]);
-        expect(readRouter(project)).toBe(VUE_CLI_ROUTER);
+        expect(readRouter(project)).toBe(VUE_ROUTER);
     });
 
     it.each([
@@ -125,13 +125,25 @@ describe("vueg view: the route", () => {
         expect(readRouter(project)).toContain(`    component: () => import('${ imported }')`);
     });
 
+    // create-vue names its routes 'home', 'about': the new one follows
+    it.each([
+        { label: "lowercase names (create-vue)",  router: VUE_ROUTER,                                                expected: "name: 'userProfile'," },
+        { label: "capitalized names",             router: "const routes = [\n  { path: '/', name: 'Home' }\n]\n",    expected: "name: 'UserProfile'," },
+        { label: "no names",                      router: "const routes = []\n",                                     expected: "name: 'UserProfile'," },
+    ])("names the route like the router: $label", ({ router, expected }) => {
+        addRouter(project, router);
+
+        expect(runScript(VUEG, project, ["view", "--name", "UserProfile"]).status).toBe(0);
+        expect(readRouter(project)).toContain(expected);
+    });
+
     it("--no-route generates the view and leaves the router as is", () => {
         const { status, stdout } = runScript(VUEG, project, ["view", "--name", "Users", "--no-route"]);
 
         expect(status).toBe(0);
         expect(stdout).not.toMatch(/Route/);
         expect(readComponent(project, "views/Users.vue")).not.toBeNull();
-        expect(readRouter(project)).toBe(VUE_CLI_ROUTER);
+        expect(readRouter(project)).toBe(VUE_ROUTER);
     });
 
     it("--dry-run shows the view and the route, and writes nothing", () => {
@@ -142,13 +154,13 @@ describe("vueg view: the route", () => {
         expect(stdout).toMatch(/Dry run, route not added to src\/router\/index\.js/);
         expect(stdout).toContain("path: '/users',");
         expect(readComponent(project, "views/Users.vue")).toBeNull();
-        expect(readRouter(project)).toBe(VUE_CLI_ROUTER);
+        expect(readRouter(project)).toBe(VUE_ROUTER);
     });
 
     // Every failure leaves the project as it was: no view, router unchanged
     it.each([
         { label: "the route already exists",    args: ["--name", "Start", "--route", "/"],  message: /Route "\/" already exists in src\/router\/index\.js/ },
-        { label: "the route name exists",       args: ["--name", "Home", "--route", "/x"],  message: /A route named "Home" already exists/ },
+        { label: "the route name exists",       args: ["--name", "About", "--route", "/x"], message: /A route named "about" already exists/ },
         { label: "--route without /",           args: ["--name", "Users", "--route", "users"], message: /--route needs a path starting with "\/"/ },
         { label: "--route without value",       args: ["--name", "Users", "--route"],       message: /--route needs a path starting with "\/"/ },
         { label: "an invalid component option", args: ["--name", "Users", "--style", "tailwind"], message: /Style tailwind not supported/ },
@@ -158,7 +170,7 @@ describe("vueg view: the route", () => {
         expect(status).toBe(1);
         expect(stdout).toMatch(message);
         expect(fs.existsSync(path.join(project, "src", "views"))).toBe(false);
-        expect(readRouter(project)).toBe(VUE_CLI_ROUTER);
+        expect(readRouter(project)).toBe(VUE_ROUTER);
     });
 
     it("leaves the router as is when the view already exists (no --force)", () => {
@@ -169,7 +181,7 @@ describe("vueg view: the route", () => {
 
         expect(status).toBe(1);
         expect(stdout).toMatch(/Component already exists/);
-        expect(readRouter(project)).toBe(VUE_CLI_ROUTER);
+        expect(readRouter(project)).toBe(VUE_ROUTER);
     });
 
     it("fails without a router, and creates no view", () => {
@@ -187,7 +199,7 @@ describe("vueg view: the route", () => {
         runScript(VUEG, project, ["view", "--name", "Settings", "--path", "admin"]);
 
         const router = readRouter(project);
-        expect(router.match(/path: /g)).toHaveLength(3);
+        expect(router.match(/path: /g)).toHaveLength(4);
         expect(router.indexOf("/users")).toBeLessThan(router.indexOf("/admin/settings"));
     });
 });
