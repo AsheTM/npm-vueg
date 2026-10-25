@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-25
+
+**Vue 3**, on vuegc 2. For Vue 2, use vueg 1 (`npm install -g @ashetm/vueg@1`).
+
 ### Added
 - `vueg component` and `vueg view` accept vuegc 2's new flags: `--emits`, `--options` (Options API), `--ts` ([#17](https://github.com/AsheTM/npm-vueg/issues/17)).
 - `vueg view` works with **Vue Router 4** (`createRouter({ routes: [...] })`, `RouteRecordRaw[]`), and names the route like the router does: `'userProfile'` when the existing names are lowercase (create-vue: `'home'`, `'about'`), `'UserProfile'` otherwise ([#17](https://github.com/AsheTM/npm-vueg/issues/17)).
@@ -33,6 +37,7 @@ First release, for **Vue 2**.
 - README: install, commands, flags, examples ([#7](https://github.com/AsheTM/npm-vueg/issues/7)).
 - Written in TypeScript, compiled to `dist/` (the only published folder); tested with Vitest, including parity tests with the vuegc command ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
 
-[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/v1.1.0...develop
+[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/v2.0.0...develop
+[2.0.0]: https://github.com/AsheTM/npm-vueg/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/AsheTM/npm-vueg/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/AsheTM/npm-vueg/releases/tag/v1.0.0
