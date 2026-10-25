@@ -16,6 +16,34 @@ export function createVueProject(): string {
     return root;
 }
 
+/** The router of a Vue CLI 2 project (src/router/index.js). */
+export const VUE_CLI_ROUTER = `import Vue from 'vue'
+import VueRouter from 'vue-router'
+import Home from '../views/Home.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  }
+]
+
+const router = new VueRouter({ mode: 'history', routes })
+
+export default router
+`;
+
+/** Add src/router/index.js to a project, returns its path. */
+export function addRouter(root: string, content: string = VUE_CLI_ROUTER): string {
+    const file = path.join(root, "src", "router", "index.js");
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, content);
+    return file;
+}
+
 export function removeFolder(folder: string): void {
     fs.rmSync(folder, { recursive: true, force: true });
 }
