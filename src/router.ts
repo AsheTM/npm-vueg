@@ -122,7 +122,7 @@ function detectStyle(source: string, inside: string): { indent: string; unit: st
  * checks the route doesn't exist yet. Throws a vueg error otherwise.
  * @param viewFile Absolute path of the view (where vuegc writes it).
  */
-export function planRoute(cwd: string, viewFile: string, routeName: string, route: string): RoutePlan {
+export function planRoute(cwd: string, viewFile: string, componentName: string, route: string): RoutePlan {
     const file = findRouter(cwd);
     if(!file)
         throw vuegError(`No router found (src/${ ROUTER_FILES.join(", src/") }): install vue-router or use --no-route`);
@@ -135,6 +135,12 @@ export function planRoute(cwd: string, viewFile: string, routeName: string, rout
 
     const inside = source.slice(array.open + 1, array.close);
     const escaped = (text: string) => text.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&");
+
+    // Route names follow the router's casing: create-vue names them 'home', 'about'
+    const names = [...inside.matchAll(/\bname\s*:\s*['"`]([^'"`]+)['"`]/g)].map(match => match[1]);
+    const lowercase = names.length > 0 && names.every(name => /^[a-z]/.test(name));
+    const routeName = lowercase ? componentName.charAt(0).toLowerCase() + componentName.slice(1) : componentName;
+
     if(new RegExp(`path\\s*:\\s*['"\`]${ escaped(route) }['"\`]`).test(inside))
         throw vuegError(`Route "${ route }" already exists in ${ shown }: use --route or --no-route`);
     if(new RegExp(`name\\s*:\\s*['"\`]${ escaped(routeName) }['"\`]`).test(inside))

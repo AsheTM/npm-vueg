@@ -82,6 +82,36 @@ const routes: RouteConfig[] = [
 
 export default new VueRouter({ routes })
 `],
+    ["create-vue (Vue Router 4), routes inline", "router/index.js", `import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('../views/AboutView.vue')
+    }
+  ]
+})
+
+export default router
+`],
+    ["Vue Router 4 + TypeScript, RouteRecordRaw[]", "router/index.ts", `import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
+import HomeView from "../views/HomeView.vue";
+
+const routes: RouteRecordRaw[] = [
+    { path: "/", name: "Home", component: HomeView },
+];
+
+export default createRouter({ history: createWebHistory(), routes });
+`],
 ];
 
 /**

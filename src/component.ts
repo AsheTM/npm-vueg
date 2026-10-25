@@ -20,6 +20,7 @@ export function componentOptions(flags: readonly string[], cwd: string = process
         throw { errno: 0x0003, flag: "name", exit: true };
 
     const props = getValue(flags, "--props");
+    const emits = getValue(flags, "--emits");
     return {
         name,
         style:      passOn(getValue(flags, "--style")) as VuegcStyle | undefined,
@@ -33,6 +34,9 @@ export function componentOptions(flags: readonly string[], cwd: string = process
         noStyle:    isOn(getValue(flags, "--no-style")),
         props:      props === null ? undefined : parseList(props),
         cssModule:  isOn(getValue(flags, "--module")),
+        emits:      emits === null ? undefined : parseList(emits),
+        optionsApi: isOn(getValue(flags, "--options")),
+        ts:         isOn(getValue(flags, "--ts")),
         cwd,
     };
 }
