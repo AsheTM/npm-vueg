@@ -51,11 +51,15 @@ ${ optionalFlags("Folder inside src/ for the component, created if missing [Defa
 /** Help of `vueg view`. */
 export function viewHelp(): string {
     return `${ BANNER }
-vueg view --name Home ${ FLAGS }
+vueg view --name Home ${ FLAGS } [--route /home] [--no-route]
+
+The view is added to the routes of src/router/index.js (or router.js, .ts), lazy loaded.
 
 Required flag(s):
 --name:     Name of the view
 
 ${ optionalFlags("Folder inside src/views/ for the view, created if missing [Default: src/views/]") }
+--route:    Path of the route [Default: /<path>/<name in kebab-case>]
+--no-route: Generate the view only, leave the router as is [Default: false]
 `;
 }
