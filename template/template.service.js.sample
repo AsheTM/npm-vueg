@@ -1,0 +1,9 @@
+
+function greetings() {
+    let text = "Hello World";
+    return text;
+}
+
+export {
+    greetings
+};

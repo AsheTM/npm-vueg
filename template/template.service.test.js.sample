@@ -1,0 +1,7 @@
+import { greetings }    from "template.service.js";
+
+test("Do greetings", function() {
+    it("Should say 'Hello World'", function() {
+        expect(greetings()).toBe("Hello World");
+    });
+});

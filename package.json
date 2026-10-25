@@ -1,0 +1,49 @@
+{
+  "name": "@ashetm/vueg",
+  "version": "1.0.0",
+  "description": "CLI to generate files in a Vue project: components, views, services",
+  "main": "dist/vueg.js",
+  "bin": {
+    "vueg": "dist/vueg.js"
+  },
+  "files": [
+    "dist/",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.test.json",
+    "pretest": "npm run build && npm run typecheck",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prepack": "npm run build"
+  },
+  "keywords": [
+    "vue",
+    "generate",
+    "component",
+    "service",
+    "cli"
+  ],
+  "author": "@ashetm",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AsheTM/npm-vueg.git"
+  },
+  "homepage": "https://github.com/AsheTM/npm-vueg#readme",
+  "bugs": {
+    "url": "https://github.com/AsheTM/npm-vueg/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "vuegc": "^1.4.0"
+  }
+}
