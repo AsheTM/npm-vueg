@@ -12,7 +12,12 @@ function runCli(args: string[]): { status: number | null; stdout: string } {
 }
 
 describe("run() (source)", () => {
-    it.each([[], ["help"], ["--help"], ["-h"]])("shows the main help for: vueg %j", (...args) => {
+    it.each([
+        { label: "(no argument)",   args: [] },
+        { label: "help",            args: ["help"] },
+        { label: "--help",          args: ["--help"] },
+        { label: "-h",              args: ["-h"] },
+    ])("shows the main help for: vueg $label", ({ args }) => {
         const print = vi.fn();
 
         expect(run(args, print)).toBe(0);
