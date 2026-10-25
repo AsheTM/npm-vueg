@@ -15,5 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Rewritten in TypeScript: sources in `src/`, compiled by `tsc` to `dist/` (only `dist/` is published); tests with Vitest ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
+- README: install, commands, `vueg component` flags and examples, real generated output, versions, development ([#7](https://github.com/AsheTM/npm-vueg/issues/7)).
 
 [Unreleased]: https://github.com/AsheTM/npm-vueg/compare/main...develop
