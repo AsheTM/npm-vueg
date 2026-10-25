@@ -1,8 +1,8 @@
 # vueg
 
-CLI to generate files in a **Vue 2** project. Version 1.0 generates components; views and services are planned.
+CLI to generate files in a **Vue 2** project: components, and views with their route. Services are planned.
 
-Component generation relies on [vuegc](https://github.com/AsheTM/npm-vuegc): `vueg component` accepts the same flags and produces exactly the same files.
+Generation relies on [vuegc](https://github.com/AsheTM/npm-vuegc): `vueg component` and `vueg view` accept the same flags and produce exactly the same files.
 
 ## Install
 
@@ -17,6 +17,7 @@ The package is `@ashetm/vueg`, the command is `vueg`. Or run it without installi
 | Command | Description |
 |---|---|
 | `vueg component` | Generate a Vue component |
+| `vueg view` | Generate a view in `src/views/` and add its route to the router |
 | `vueg help`, `vueg`, `--help`, `-h` | Show the commands |
 
 `vueg <command>` without flags, or with `--help` / `-h`, shows the help of that command. An unknown command exits with code `1`.
@@ -77,6 +78,49 @@ export default {
 <style lang="scss" scoped>
 </style>
 ```
+
+## `vueg view`
+
+A view is a page: a component in `src/views/`, shown by the router. `vueg view` generates it and adds its route.
+
+``` sh
+vueg view --name Home [component flags] [--route /home] [--no-route]
+```
+
+- **Every `vueg component` flag** works the same, except `--path`, which is a sub-folder **of `src/views/`** (`--path admin` → `src/views/admin/`).
+- The route is added to the `routes` array of `src/router/index.js` (or `router/index.ts`, `router.js`, `router.ts`), **lazy loaded**, so no `import` line is needed. It follows the file's indentation, quotes, trailing commas and line endings.
+
+| Flag | Description | Default |
+|---|---|---|
+| `--route` | Path of the route, starting with `/` | `/<path>/<name in kebab-case>` |
+| `--no-route` | Generate the view only, leave the router as is | `false` |
+
+`vueg view --name UserProfile --path admin --blank` generates `src/views/admin/UserProfile.vue` and prints:
+
+```
+> Generating vue component starting
+> Generating vue component success
+> Route /admin/user-profile added to src/router/index.js
+```
+
+In `src/router/index.js` (Vue CLI project):
+
+``` js
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/admin/user-profile',
+    name: 'UserProfile',
+    component: () => import('../views/admin/UserProfile.vue')
+  }
+]
+```
+
+**Nothing is written if something is wrong**: no router, no `routes` array, a route path or name already used, an invalid `--route`, or a view that can't be generated (e.g. it exists, without `--force`) → the reason is printed, exit code `1`, project unchanged. `--dry-run` prints the view and the route without writing anything.
 
 ## Versions
 
