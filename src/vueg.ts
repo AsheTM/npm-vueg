@@ -1,11 +1,15 @@
 #!/usr/bin/env node
-import { errorHandler, type VuegcError } from "vuegc";
 import { getValue } from "./args";
 import { generateComponent } from "./component";
-import { mainHelp, componentHelp } from "./help";
+import { handleError } from "./errors";
+import { mainHelp, componentHelp, viewHelp } from "./help";
+import { generateView } from "./view";
 
-/** Commands of vueg, more to come (view, service…). */
-const COMMANDS = ["component"] as const;
+/** Commands of vueg: their help, and what they generate (returns the path of the file). */
+const COMMANDS: Record<string, { help: () => string; generate: (flags: readonly string[]) => string }> = {
+    component:  { help: componentHelp,  generate: generateComponent },
+    view:       { help: viewHelp,       generate: generateView },
+};
 
 /**
  * Run vueg with the command line arguments (without `node` and the script).
@@ -21,23 +25,23 @@ export function run(args: readonly string[], print: (text: string) => void = con
         return 0;
     }
 
-    switch(command) {
-        case "component":
-            if(wantsHelp) {
-                print(componentHelp());
-                return 0;
-            }
-            try {
-                generateComponent(flags);
-                return 0;
-            } catch(err) {
-                // Same messages and exit code 1 as the vuegc command
-                errorHandler(err as VuegcError);
-            }
-        default:
-            print(`\t[!] Unknown command "${ command }", use one of: ${ COMMANDS.join(", ") } [!]`);
-            print(mainHelp());
-            return 1;
+    const known = Object.hasOwn(COMMANDS, command) ? COMMANDS[command] : undefined;
+    if(!known) {
+        print(`\t[!] Unknown command "${ command }", use one of: ${ Object.keys(COMMANDS).join(", ") } [!]`);
+        print(mainHelp());
+        return 1;
+    }
+
+    if(wantsHelp) {
+        print(known.help());
+        return 0;
+    }
+    try {
+        known.generate(flags);
+        return 0;
+    } catch(err) {
+        // vuegc's errors keep vuegc's messages; exit code 1
+        return handleError(err);
     }
 }
 

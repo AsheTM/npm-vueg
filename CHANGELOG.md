@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `vueg view --name Home` generates a view in `src/views/` through vuegc, with the same flags as `vueg component`; `--path admin` is a sub-folder of `views/` and must stay inside it ([#10](https://github.com/AsheTM/npm-vueg/issues/10)).
+
 ## [1.0.0] - 2026-10-25
 
 First release, for **Vue 2**.
