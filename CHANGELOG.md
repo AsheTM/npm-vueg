@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - **BREAKING**: relies on [vuegc](https://github.com/AsheTM/npm-vuegc) `^2.0.0`, so vueg 2 generates **Vue 3** components (Vue 3 projects only, `css` and `<script setup>` by default). For Vue 2, use vueg 1 (`npm install -g @ashetm/vueg@1`, `1.x` branch) ([#17](https://github.com/AsheTM/npm-vueg/issues/17)).
+- README for Vue 3: new flags, examples from the real output (TypeScript component, view on a create-vue router), versions table with the vuegc range, migrating from 1.x ([#19](https://github.com/AsheTM/npm-vueg/issues/19)).
 
 ## [1.1.0] - 2026-10-25
 
