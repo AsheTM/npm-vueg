@@ -1,0 +1,35 @@
+{
+  "name": "@ashetm/vueg",
+  "version": "0.0.0",
+  "description": "CLI to generate files in a Vue project: components, views, services",
+  "main": "vueg.js",
+  "bin": {
+    "vueg": "vueg.js"
+  },
+  "files": [
+    "vueg.js",
+    "services/",
+    "template/",
+    "CHANGELOG.md"
+  ],
+  "keywords": [
+    "vue",
+    "generate",
+    "component",
+    "service",
+    "cli"
+  ],
+  "author": "@ashetm",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AsheTM/npm-vueg.git"
+  },
+  "homepage": "https://github.com/AsheTM/npm-vueg#readme",
+  "bugs": {
+    "url": "https://github.com/AsheTM/npm-vueg/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
