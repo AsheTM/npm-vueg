@@ -13,7 +13,8 @@ describe("componentOptions() (flags -> vuegc options)", () => {
             name: "Card", style: undefined, scoped: true, path: undefined,
             blank: false, force: false, dryRun: false,
             noTemplate: false, noScript: false, noStyle: false,
-            props: undefined, cssModule: false, cwd: "/project",
+            props: undefined, cssModule: false,
+            emits: undefined, optionsApi: false, ts: false, cwd: "/project",
         });
     });
 
@@ -52,7 +53,7 @@ describe("vueg component (CLI)", () => {
 
         expect(status).toBe(0);
         expect(stdout).toMatch(/Generating vue component success/);
-        expect(readComponent(project, "Card.vue")).toMatch(/name: "Card"/);
+        expect(readComponent(project, "Card.vue")).toMatch(/id="Card"/);
     });
 
     it.each([
@@ -113,6 +114,10 @@ describe("parity with the vuegc command", () => {
         { flags: ["--no-style", "--props", "title"] },
         { flags: ["--no-template", "--no-script", "--style", "stylus"] },
         { flags: ["--path", "components/ui"] },
+        { flags: ["--props", "title", "--emits", "update:modelValue,close"] },
+        { flags: ["--ts", "--props", "title", "--emits", "close"] },
+        { flags: ["--options", "--ts", "--emits", "close"] },
+        { flags: ["--options", "--style", "scss"] },
     ])("same file for: $flags", ({ flags }) => {
         const vueg = runScript(VUEG, forVueg, ["component", "--name", "Card", ...flags]);
         const vuegc = runScript(VUEGC, forVuegc, ["--name", "Card", ...flags]);
