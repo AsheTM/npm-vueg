@@ -11,6 +11,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
+    "prebuild": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.test.json",
     "pretest": "npm run build && npm run typecheck",

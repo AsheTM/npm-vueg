@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- The build empties `dist/` first: building an older version no longer keeps files of a newer build (published 1.0.0 contains 3 unused files from the 2.0 build) ([#22](https://github.com/AsheTM/npm-vueg/issues/22)).
+
 ## [2.0.0] - 2026-10-25
 
 **Vue 3**, on vuegc 2. For Vue 2, use vueg 1 (`npm install -g @ashetm/vueg@1`).
