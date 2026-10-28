@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- `package-lock.json` is committed (all packages from registry.npmjs.org, vuegc 2.0.0 from npm), for reproducible installs with `npm ci` ([#24](https://github.com/AsheTM/npm-vueg/issues/24)).
+
 ### Fixed
 - The build empties `dist/` first: building an older version no longer keeps files of a newer build (published 1.0.0 contains 3 unused files from the 2.0 build) ([#22](https://github.com/AsheTM/npm-vueg/issues/22)).
 
