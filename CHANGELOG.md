@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- A project `.npmrc` pins the registry to registry.npmjs.org, also for `@ashetm` packages: installs, the lock file and `npm publish` no longer depend on the developer's own npm config, and publishing needs no `--@ashetm:registry` flag (no token in it; npm never packs it) ([#26](https://github.com/AsheTM/npm-vueg/issues/26)).
 - `package-lock.json` is committed (all packages from registry.npmjs.org, vuegc 2.0.0 from npm), for reproducible installs with `npm ci` ([#24](https://github.com/AsheTM/npm-vueg/issues/24)).
 
 ### Fixed
