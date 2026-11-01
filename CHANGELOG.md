@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- CI: GitHub Actions run `npm ci` and `npm test` (build, typecheck, tests) on every pull request into `1.x` and every push to it, on Node 22 and 24, on Ubuntu and Windows ([#43](https://github.com/AsheTM/npm-vueg/issues/43)).
+
+### Changed
+- A project `.npmrc` pins the registry to registry.npmjs.org, also for `@ashetm` packages, and `package-lock.json` is committed (all packages from registry.npmjs.org, vuegc 1.4.0 from npm), for reproducible installs with `npm ci` ([#43](https://github.com/AsheTM/npm-vueg/issues/43)).
+
+### Fixed
+- The build empties `dist/` first: building no longer keeps files of another version's build ([#43](https://github.com/AsheTM/npm-vueg/issues/43)).
+
 ## [1.1.0] - 2026-10-25
 
 ### Added
