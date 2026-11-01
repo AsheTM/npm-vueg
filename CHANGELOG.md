@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Library API, `require("@ashetm/vueg")`: `component(options)` generates a component with vuegc's options and returns its path; `view(options)` generates a view in `src/views/` and adds its route (`route: "/path"`, or `false` for none), and returns `{ file, route: { path, name, router } }`; `errorMessage(err)` gives the message of their errors, the same one the CLI prints, without printing or exiting ([#32](https://github.com/AsheTM/npm-vueg/issues/32)).
+- TypeScript declarations (`dist/*.d.ts`, `types` in `package.json`): `ComponentOptions`, `ViewOptions`, `ViewResult`, `ViewRoute`, `VuegcStyle` and the typed functions ([#33](https://github.com/AsheTM/npm-vueg/issues/33)).
 - CI: GitHub Actions run `npm ci` and `npm test` (build, typecheck, tests) on every pull request into `develop` or `main` and every push to `develop`, on Node 22 and 24, on Ubuntu and Windows ([#28](https://github.com/AsheTM/npm-vueg/issues/28)).
 - Dependabot: a weekly pull request into `develop` for npm packages (development dependencies grouped) and for GitHub Actions ([#29](https://github.com/AsheTM/npm-vueg/issues/29)).
 
