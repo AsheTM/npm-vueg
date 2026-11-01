@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.1.0] - 2026-11-01
+
+vueg as a **library**: `component()`, `view()` and `errorMessage()`, with TypeScript declarations.
+
 ### Added
 - Library API, `require("@ashetm/vueg")`: `component(options)` generates a component with vuegc's options and returns its path; `view(options)` generates a view in `src/views/` and adds its route (`route: "/path"`, or `false` for none), and returns `{ file, route: { path, name, router } }`; `errorMessage(err)` gives the message of their errors, the same one the CLI prints, without printing or exiting ([#32](https://github.com/AsheTM/npm-vueg/issues/32)).
 - TypeScript declarations (`dist/*.d.ts`, `types` in `package.json`): `ComponentOptions`, `ViewOptions`, `ViewResult`, `ViewRoute`, `VuegcStyle` and the typed functions ([#33](https://github.com/AsheTM/npm-vueg/issues/33)).
@@ -51,7 +55,8 @@ First release, for **Vue 2**.
 - README: install, commands, flags, examples ([#7](https://github.com/AsheTM/npm-vueg/issues/7)).
 - Written in TypeScript, compiled to `dist/` (the only published folder); tested with Vitest, including parity tests with the vuegc command ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
 
-[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/v2.0.0...develop
+[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/v2.1.0...develop
+[2.1.0]: https://github.com/AsheTM/npm-vueg/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/AsheTM/npm-vueg/compare/v1.1.0...v2.0.0
 [1.1.0]: https://github.com/AsheTM/npm-vueg/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/AsheTM/npm-vueg/releases/tag/v1.0.0
