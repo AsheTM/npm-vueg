@@ -1,8 +1,9 @@
 {
   "name": "@ashetm/vueg",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "CLI to generate files in a Vue project: components, views, services",
   "main": "dist/vueg.js",
+  "types": "dist/vueg.d.ts",
   "bin": {
     "vueg": "dist/vueg.js"
   },
@@ -11,6 +12,7 @@
     "CHANGELOG.md"
   ],
   "scripts": {
+    "prebuild": "node -e \"require('fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.test.json",
     "pretest": "npm run build && npm run typecheck",
