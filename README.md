@@ -1,6 +1,6 @@
 # vueg
 
-CLI to generate files in a **Vue 3** project: components, and views with their route. Services are planned.
+CLI to generate files in a **Vue 3** project: components, and views with their route. Services are planned. Also usable as a [library](#library).
 
 Generation relies on [vuegc](https://github.com/AsheTM/npm-vuegc): `vueg component` and `vueg view` accept the same flags and produce exactly the same files (`<script setup>`, TypeScript, CSS pre-processors, props and events).
 
@@ -127,6 +127,41 @@ In `src/router/index.js` (create-vue project, Vue Router 4):
 ```
 
 **Nothing is written if something is wrong**: no router, no `routes` array, a route path or name already used, an invalid `--route`, or a view that can't be generated (e.g. it exists, without `--force`) → the reason is printed, exit code `1`, project unchanged. `--dry-run` prints the view and the route without writing anything.
+
+## Library
+
+Since 2.1.0, vueg's commands are also functions, with options instead of flags. TypeScript declarations are included.
+
+``` sh
+npm install @ashetm/vueg
+```
+
+``` js
+const { component, view, errorMessage } = require("@ashetm/vueg");
+
+try {
+    component({ name: "Card", ts: true, props: ["title"], cwd: "/path/to/project" });
+    // → "/path/to/project/src/Card.vue"
+
+    view({ name: "UserProfile", path: "admin", cwd: "/path/to/project" });
+    // → {
+    //     file: "/path/to/project/src/views/admin/UserProfile.vue",
+    //     route: { path: "/admin/user-profile", name: "userProfile", router: "/path/to/project/src/router/index.js" }
+    //   }
+} catch(err) {
+    console.error(errorMessage(err));   // e.g. "Component already exists, use --force to overwrite it"
+}
+```
+
+| Function | Like | Options | Returns |
+|---|---|---|---|
+| `component(options)` | `vueg component` | [vuegc's options](https://github.com/AsheTM/npm-vuegc#use-as-a-library): `name` (required), `style`, `path`, `props`, `emits`, `ts`, `optionsApi`, `force`, `dryRun`, `cwd`… | the component's path |
+| `view(options)` | `vueg view` | the same, `path` inside `src/views/`, and `route`: a path starting with `/`, or `false` for no route (default: the view's folder and name in kebab-case) | `{ file, route }`: the view's path, and the route added (`{ path, name, router }`, or `null` with `route: false`) |
+| `errorMessage(err)` | | an error thrown by `component()` or `view()` | the message the CLI prints for it |
+
+- Both functions **throw** on failure, with the project unchanged. Their errors are plain objects, as in vuegc: `errorMessage()` gives their message, and prints nothing.
+- Like the CLI, they print their progress (`> Generating vue component success`, `> Route … added`). `cwd` is the project's root (default: the current directory).
+- `run(args)` runs the CLI itself (`run(["component", "--name", "Card"])`) and returns its exit code.
 
 ## Versions
 
