@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Library API, `require("@ashetm/vueg")`, the same as vueg 2.1.0 for Vue 2 projects: `component(options)` generates a component with vuegc 1's options and returns its path; `view(options)` generates a view in `src/views/` and adds its route (`route: "/path"`, or `false` for none), and returns `{ file, route: { path, name, router } }`; `errorMessage(err)` gives the message of their errors, the same one the CLI prints, without printing or exiting. TypeScript declarations included (`dist/*.d.ts`, `types` in `package.json`) ([#44](https://github.com/AsheTM/npm-vueg/issues/44)).
+- README: Library section, with an example, the options and return values of each function, and how errors work; the versions table now has vueg 2 (Vue 3) and the install commands ([#45](https://github.com/AsheTM/npm-vueg/issues/45)).
 - CI: GitHub Actions run `npm ci` and `npm test` (build, typecheck, tests) on every pull request into `1.x` and every push to it, on Node 22 and 24, on Ubuntu and Windows ([#43](https://github.com/AsheTM/npm-vueg/issues/43)).
 
 ### Changed
