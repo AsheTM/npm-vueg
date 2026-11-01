@@ -3,6 +3,7 @@
   "version": "1.1.0",
   "description": "CLI to generate files in a Vue project: components, views, services",
   "main": "dist/vueg.js",
+  "types": "dist/vueg.d.ts",
   "bin": {
     "vueg": "dist/vueg.js"
   },

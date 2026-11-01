@@ -11,6 +11,8 @@ export interface RoutePlan {
     file: string;
     /** Route path, e.g. "/admin/users". */
     route: string;
+    /** Route name, in the router's casing, e.g. "AdminUsers" or "adminUsers". */
+    name: string;
     /** The route object as inserted. */
     snippet: string;
     /** Content of the router file with the route added. */
@@ -173,6 +175,7 @@ export function planRoute(cwd: string, viewFile: string, routeName: string, rout
     return {
         file,
         route,
+        name: routeName,
         snippet,
         content: source.slice(0, array.open + 1) + newInside + source.slice(array.close),
     };
