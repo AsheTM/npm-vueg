@@ -10,7 +10,7 @@ export function vuegError(message: string): VuegError {
     return { vueg: true, message };
 }
 
-function isVuegError(err: unknown): err is VuegError {
+export function isVuegError(err: unknown): err is VuegError {
     return typeof err === "object" && err !== null && (err as VuegError).vueg === true;
 }
 
