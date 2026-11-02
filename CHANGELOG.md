@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-11-02
+
+`vueg service`: a module of API calls with `fetch`, with its Vitest test and TypeScript types on demand.
+
 ### Added
 - `vueg service --name User` generates `src/services/user.service.js`, a module of API calls with `fetch`: a `request()` helper (JSON, throws on an HTTP error, `null` for 204) and `getAll`, `getById`, `create`, `update`, `remove` on `/api/user`. File names in kebab-case (`UserProfile` → `user-profile.service.js`). `--path` (inside `src/`, default `services`), `--ts` (`.service.ts`, typed with generics), `--test` (a Vitest test stubbing `fetch`, `.service.spec.js`), `--blank` (an empty module), `--force`, `--dry-run`. Nothing is written if the service or its test exists, with an invalid name, a path outside `src/`, or outside a Vue project. Library: `service(options)` and the `ServiceOptions` type ([#54](https://github.com/AsheTM/npm-vueg/issues/54)).
 
@@ -71,7 +75,8 @@ First release, for **Vue 2**.
 - README: install, commands, flags, examples ([#7](https://github.com/AsheTM/npm-vueg/issues/7)).
 - Written in TypeScript, compiled to `dist/` (the only published folder); tested with Vitest, including parity tests with the vuegc command ([#3](https://github.com/AsheTM/npm-vueg/issues/3)).
 
-[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/v2.2.0...develop
+[Unreleased]: https://github.com/AsheTM/npm-vueg/compare/v2.3.0...develop
+[2.3.0]: https://github.com/AsheTM/npm-vueg/compare/v2.2.0...v2.3.0
 [2.2.0]: https://github.com/AsheTM/npm-vueg/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/AsheTM/npm-vueg/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/AsheTM/npm-vueg/compare/v1.1.0...v2.0.0
