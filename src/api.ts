@@ -3,7 +3,7 @@ import { vuegc, errorHandler, type VuegcOptions, type VuegcError } from "vuegc";
 import { isVuegError } from "./errors";
 import { createView, viewPath, type ViewResult } from "./view";
 
-export type { VuegcStyle } from "vuegc";
+export type { VuegcStyle, VuegcTemplate } from "vuegc";
 export type { ViewResult, ViewRoute } from "./view";
 
 /** Options of `component()`: vuegc's options (`dryRun` → `--dry-run`, `cssModule` → `--module`, …). */

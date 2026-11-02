@@ -29,7 +29,7 @@ The package is `@ashetm/vueg`, the command is `vueg`. Or run it without installi
 Run it at the root of a Vue 3 project (the folder that contains `src/main.js` or `src/main.ts`, creating the app with `createApp`, and `src/App.vue`), e.g. a create-vue (Vite) project:
 
 ``` sh
-vueg component --name HelloWorld.vue [--scoped [true|false]] [--style scss] [--path components] [--blank] [--force] [--dry-run] [--no-template|--no-script|--no-style] [--props title,items] [--emits update,close] [--module] [--options] [--ts]
+vueg component --name HelloWorld.vue [--scoped [true|false]] [--style scss] [--path components] [--blank] [--force] [--dry-run] [--no-template|--no-script|--no-style] [--props title,items] [--emits update,close] [--module] [--options] [--ts] [--template pug] [--test] [--story]
 ```
 
 | Flag | Description | Default |
@@ -41,12 +41,17 @@ vueg component --name HelloWorld.vue [--scoped [true|false]] [--style scss] [--p
 | `--blank` | Empty template and style, without the demo content | `false` |
 | `--force` | Overwrite the component if it already exists | `false` |
 | `--dry-run` | Print the component instead of writing it; same checks as a real run | `false` |
-| `--no-template`, `--no-script`, `--no-style` | Leave the section out (at least one must remain) | `false` |
+| `--no-template`, `--no-script`, `--no-style` | Leave the section out (at least one must remain). Without the template, the component needs a script with something in it: `--props`, `--emits` or `--options` | `false` |
 | `--props` | Comma-separated prop names, e.g. `title,items`, declared as `title: null` (any type) | none |
 | `--emits` | Comma-separated event names, e.g. `update:modelValue,close` | none |
 | `--module` | CSS modules: `<style module>` and `:class="$style.root"` instead of `scoped` | `false` |
 | `--options` | Options API (`export default { … }`) instead of `<script setup>` | `false` |
 | `--ts` | TypeScript: `lang="ts"`, typed `defineProps<{ … }>()` / `defineEmits<{ … }>()` | `false` |
+| `--template` | Template language: `html`, or `pug` (`<template lang="pug">`, needs the `pug` package) | `html` |
+| `--test` | Also write a [Vitest](https://vitest.dev) test next to the component: `Name.spec.js` (`.spec.ts` with `--ts`), mounting it with Vue Test Utils | `false` |
+| `--story` | Also write a [Storybook](https://storybook.js.org) story next to the component: `Name.stories.js` (`.stories.ts` with `--ts`), its props as args | `false` |
+
+The test and the story are [vuegc's](https://github.com/AsheTM/npm-vuegc#test): see there what they contain and what they need.
 
 Examples:
 
@@ -55,9 +60,10 @@ vueg component --name HelloWorld                              # src/HelloWorld.v
 vueg component --name Button --path components/ui             # src/components/ui/Button.vue
 vueg component --name Card --props title,items --emits close  # props and events
 vueg component --name Card --ts --style scss --dry-run        # preview, nothing written
+vueg component --name Card --test --story                     # and src/Card.spec.js, src/Card.stories.js
 ```
 
-An existing component is never overwritten without `--force`. On failure, `vueg` prints the reason and exits with code `1`.
+An existing component (or its test, or its story) is never overwritten without `--force`. On failure, `vueg` prints the reason and exits with code `1`.
 
 `vueg component --name Card --props title,items --emits update:modelValue --ts --blank` generates `src/Card.vue`:
 
@@ -88,7 +94,7 @@ A view is a page: a component in `src/views/`, shown by the router. `vueg view` 
 vueg view --name Home [component flags] [--route /home] [--no-route]
 ```
 
-- **Every `vueg component` flag** works the same, except `--path`, which is a sub-folder **of `src/views/`** (`--path admin` → `src/views/admin/`).
+- **Every `vueg component` flag** works the same, except `--path`, which is a sub-folder **of `src/views/`** (`--path admin` → `src/views/admin/`). `--test` and `--story` write the view's test and story next to it.
 - The route is added to the routes of `src/router/index.js` (or `router/index.ts`, `router.js`, `router.ts`), **Vue Router 4** (`createRouter({ routes: [...] })`, `const routes: RouteRecordRaw[] = [...]`), **lazy loaded**, so no `import` line is needed. It follows the file's indentation, quotes, trailing commas, line endings, and route name casing (`'userProfile'` next to create-vue's `'home'`, `'about'`).
 
 | Flag | Description | Default |
@@ -155,7 +161,7 @@ try {
 
 | Function | Like | Options | Returns |
 |---|---|---|---|
-| `component(options)` | `vueg component` | [vuegc's options](https://github.com/AsheTM/npm-vuegc#use-as-a-library): `name` (required), `style`, `path`, `props`, `emits`, `ts`, `optionsApi`, `force`, `dryRun`, `cwd`… | the component's path |
+| `component(options)` | `vueg component` | [vuegc's options](https://github.com/AsheTM/npm-vuegc#use-as-a-library): `name` (required), `style`, `path`, `props`, `emits`, `ts`, `optionsApi`, `template`, `test`, `story`, `force`, `dryRun`, `cwd`… | the component's path |
 | `view(options)` | `vueg view` | the same, `path` inside `src/views/`, and `route`: a path starting with `/`, or `false` for no route (default: the view's folder and name in kebab-case) | `{ file, route }`: the view's path, and the route added (`{ path, name, router }`, or `null` with `route: false`) |
 | `errorMessage(err)` | | an error thrown by `component()` or `view()` | the message the CLI prints for it |
 
@@ -168,7 +174,7 @@ try {
 | vueg | Vue | vuegc | Install |
 |---|---|---|---|
 | 1.x | Vue 2 | `^1.4.0` | `npm install -g @ashetm/vueg@1` |
-| 2.x | Vue 3 | `^2.0.0` | `npm install -g @ashetm/vueg` |
+| 2.x | Vue 3 | `^2.0.0` (`^2.1.0` since vueg 2.2.0) | `npm install -g @ashetm/vueg` |
 
 **Migrating from 1.x**: vueg 2 inherits vuegc 2's changes: Vue 3 projects only, `css` and `<script setup>` by default. `--options --style scss` gives the 1.x output. See [vuegc's migration notes](https://github.com/AsheTM/npm-vuegc#migrating-from-1x).
 

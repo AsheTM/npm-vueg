@@ -184,6 +184,30 @@ describe("vueg view: the route", () => {
         expect(readRouter(project)).toBe(VUE_ROUTER);
     });
 
+    it("writes the view's test and story next to it, and adds the route", () => {
+        const { status, stdout } = runScript(VUEG, project, ["view", "--name", "Users", "--path", "admin", "--test", "--story", "--template", "pug"]);
+
+        expect(status).toBe(0);
+        expect(stdout).toContain("> Test written: src/views/admin/Users.spec.js");
+        expect(stdout).toContain("> Story written: src/views/admin/Users.stories.js");
+        expect(readComponent(project, "views/admin/Users.vue")).toContain('<template lang="pug">');
+        expect(readComponent(project, "views/admin/Users.spec.js")).toContain('import Users from "./Users.vue";');
+        expect(readComponent(project, "views/admin/Users.stories.js")).toContain("component: Users");
+        expect(readRouter(project)).toContain("path: '/admin/users'");
+    });
+
+    it("leaves the router as is when the view's test already exists (no --force)", () => {
+        fs.mkdirSync(path.join(project, "src", "views"));
+        fs.writeFileSync(path.join(project, "src", "views", "Users.spec.js"), "my own test");
+
+        const { status, stdout } = runScript(VUEG, project, ["view", "--name", "Users", "--test"]);
+
+        expect(status).toBe(1);
+        expect(stdout).toContain("src/views/Users.spec.js already exists, use --force to overwrite it");
+        expect(readComponent(project, "views/Users.vue")).toBeNull();
+        expect(readRouter(project)).toBe(VUE_ROUTER);
+    });
+
     it("fails without a router, and creates no view", () => {
         fs.rmSync(path.join(project, "src", "router"), { recursive: true });
 

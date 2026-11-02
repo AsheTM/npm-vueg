@@ -1,6 +1,6 @@
 {
   "name": "@ashetm/vueg",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "CLI to generate files in a Vue project: components, views, services",
   "main": "dist/vueg.js",
   "types": "dist/vueg.d.ts",
@@ -46,6 +46,6 @@
     "vitest": "^5.0.5"
   },
   "dependencies": {
-    "vuegc": "^2.0.0"
+    "vuegc": "^2.1.0"
   }
 }

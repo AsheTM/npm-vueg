@@ -13,9 +13,16 @@ describe("componentOptions() (flags -> vuegc options)", () => {
             name: "Card", style: undefined, scoped: true, path: undefined,
             blank: false, force: false, dryRun: false,
             noTemplate: false, noScript: false, noStyle: false,
-            props: undefined, cssModule: false,
-            emits: undefined, optionsApi: false, ts: false, cwd: "/project",
+            props: undefined, cssModule: false, template: undefined,
+            emits: undefined, optionsApi: false, ts: false, test: false, story: false, cwd: "/project",
         });
+    });
+
+    it("maps the flags of vuegc 2.1", () => {
+        expect(componentOptions(["--name", "Card", "--template", "pug", "--test", "--story"], "/project"))
+            .toMatchObject({ template: "pug", test: true, story: true });
+        expect(componentOptions(["--name", "Card", "--test", "false", "--story", "false"], "/project"))
+            .toMatchObject({ test: false, story: false });
     });
 
     it("maps every flag", () => {
@@ -112,7 +119,9 @@ describe("parity with the vuegc command", () => {
         { flags: ["--style", "sass", "--module"] },
         { flags: ["--style", "less", "--blank", "--props", "title,items"] },
         { flags: ["--no-style", "--props", "title"] },
-        { flags: ["--no-template", "--no-script", "--style", "stylus"] },
+        { flags: ["--no-template", "--options", "--style", "stylus"] },
+        { flags: ["--template", "pug"] },
+        { flags: ["--template", "pug", "--module", "--blank"] },
         { flags: ["--path", "components/ui"] },
         { flags: ["--props", "title", "--emits", "update:modelValue,close"] },
         { flags: ["--ts", "--props", "title", "--emits", "close"] },
@@ -126,5 +135,21 @@ describe("parity with the vuegc command", () => {
         expect(vueg.status).toBe(0);
         expect(vuegc.status).toBe(0);
         expect(readComponent(forVueg, file)).toBe(readComponent(forVuegc, file));
+    });
+
+    // The test and the story written next to the component (vuegc 2.1)
+    it.each([
+        { flags: ["--test", "--story"],                                         files: ["Card.spec.js", "Card.stories.js"] },
+        { flags: ["--test", "--story", "--ts", "--props", "title", "--emits", "close"], files: ["Card.spec.ts", "Card.stories.ts"] },
+    ])("same test and story for: $flags", ({ flags, files }) => {
+        const vueg = runScript(VUEG, forVueg, ["component", "--name", "Card", ...flags]);
+        runScript(VUEGC, forVuegc, ["--name", "Card", ...flags]);
+
+        expect(vueg.stdout).toContain(`> Test written: src/${ files[0] }`);
+        expect(vueg.stdout).toContain(`> Story written: src/${ files[1] }`);
+        for(const file of files) {
+            expect(readComponent(forVueg, file)).not.toBeNull();
+            expect(readComponent(forVueg, file)).toBe(readComponent(forVuegc, file));
+        }
     });
 });
