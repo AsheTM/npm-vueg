@@ -38,6 +38,7 @@ vueg <command>
 Command(s):
 component:      Generate a Vue component
 view:           Generate a view (page) in src/views/
+service:        Generate a service (API calls) in src/services/
 
 Run "vueg <command> --help" for the flags of a command.
 `;
@@ -68,5 +69,25 @@ Required flag(s):
 ${ optionalFlags("Folder inside src/views/ for the view, created if missing [Default: src/views/]") }
 --route:    Path of the route [Default: /<path>/<name in kebab-case>]
 --no-route: Generate the view only, leave the router as is [Default: false]
+`;
+}
+
+/** Help of `vueg service`. */
+export function serviceHelp(): string {
+    return `${ BANNER }
+vueg service --name User [--path folder] [--ts] [--test] [--blank] [--force] [--dry-run]
+
+The service is a module of API calls with fetch: getAll, getById, create, update, remove on /api/<name>.
+
+Required flag(s):
+--name:     Name of the service: User or user gives user.service.js
+
+Optional flag(s):
+--path:     Folder inside src/ for the service, created if missing [Default: services]
+--ts:       TypeScript: user.service.ts, typed functions [Default: false]
+--test:     Also write a Vitest test next to it (user.service.spec.js) [Default: false]
+--blank:    An empty module, without the API calls [Default: false]
+--force:    Overwrite the service (and its test) if it already exists [Default: false]
+--dry-run:  Print the files instead of writing them [Default: false]
 `;
 }

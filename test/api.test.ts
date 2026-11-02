@@ -30,7 +30,7 @@ afterEach(() => {
 
 describe("package entry", () => {
     it("exports the library API next to run()", () => {
-        expect(Object.keys(require(VUEG)).sort()).toEqual(["component", "errorMessage", "run", "view"]);
+        expect(Object.keys(require(VUEG)).sort()).toEqual(["component", "errorMessage", "run", "service", "view"]);
     });
 });
 

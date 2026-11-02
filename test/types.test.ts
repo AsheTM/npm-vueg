@@ -3,7 +3,7 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 // The published declarations (npm test builds them first), as a TypeScript user of the package gets them
-import { component, view, errorMessage, run, type ComponentOptions, type ViewOptions, type ViewResult, type VuegcStyle, type VuegcTemplate } from "../dist/vueg";
+import { component, view, service, errorMessage, run, type ComponentOptions, type ViewOptions, type ViewResult, type ServiceOptions, type VuegcStyle, type VuegcTemplate } from "../dist/vueg";
 
 const root = path.join(__dirname, "..");
 const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf-8"));
@@ -28,6 +28,11 @@ describe("TypeScript declarations", () => {
         expectTypeOf(view).parameter(0).toEqualTypeOf<ViewOptions>();
         expectTypeOf(view).returns.toEqualTypeOf<ViewResult>();
         expectTypeOf(errorMessage).returns.toEqualTypeOf<string>();
+        expectTypeOf(service).parameter(0).toEqualTypeOf<ServiceOptions>();
+        expectTypeOf(service).returns.toEqualTypeOf<string>();
+        expectTypeOf<{ name: "User"; ts: true; test: true; path: "api" }>().toExtend<ServiceOptions>();
+        // @ts-expect-error: ts is a boolean
+        expectTypeOf<{ name: "User"; ts: "yes" }>().toExtend<ServiceOptions>();
         expectTypeOf(run).returns.toEqualTypeOf<number>();
 
         expectTypeOf<ViewResult["route"]>().toEqualTypeOf<{ path: string; name: string; router: string } | null>();

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `vueg service --name User` generates `src/services/user.service.js`, a module of API calls with `fetch`: a `request()` helper (JSON, throws on an HTTP error, `null` for 204) and `getAll`, `getById`, `create`, `update`, `remove` on `/api/user`. File names in kebab-case (`UserProfile` → `user-profile.service.js`). `--path` (inside `src/`, default `services`), `--ts` (`.service.ts`, typed with generics), `--test` (a Vitest test stubbing `fetch`, `.service.spec.js`), `--blank` (an empty module), `--force`, `--dry-run`. Nothing is written if the service or its test exists, with an invalid name, a path outside `src/`, or outside a Vue project. Library: `service(options)` and the `ServiceOptions` type ([#54](https://github.com/AsheTM/npm-vueg/issues/54)).
+
+### Removed
+- `template/template.service.js.sample` and its test, imported from viu and never used (nor published) ([#54](https://github.com/AsheTM/npm-vueg/issues/54)).
+
 ## [2.2.0] - 2026-11-02
 
 A test, a story and a Pug template with components and views, on vuegc 2.1: `--test`, `--story`, `--template pug`.
