@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- `vueg component` and `vueg view` accept vuegc 2.1's new flags: `--test` (a Vitest test next to the file), `--story` (a Storybook story next to it) and `--template pug`; a view's test and story go next to it in `src/views/`. An existing test or story is reported like an existing file, and `vueg view` then leaves the router as is. Library: `component()` and `view()` take `test`, `story` and `template`, and the `VuegcTemplate` type is exported ([#51](https://github.com/AsheTM/npm-vueg/issues/51)).
+
+### Changed
+- Relies on [vuegc](https://github.com/AsheTM/npm-vuegc) `^2.1.0`, which also refuses `--no-template` when the component wouldn't compile (an empty `<script setup>`, or no script): add `--props`, `--emits` or `--options` ([#51](https://github.com/AsheTM/npm-vueg/issues/51)).
+
 ## [2.1.0] - 2026-11-01
 
 vueg as a **library**: `component()`, `view()` and `errorMessage()`, with TypeScript declarations.

@@ -3,7 +3,7 @@ import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
 // The published declarations (npm test builds them first), as a TypeScript user of the package gets them
-import { component, view, errorMessage, run, type ComponentOptions, type ViewOptions, type ViewResult, type VuegcStyle } from "../dist/vueg";
+import { component, view, errorMessage, run, type ComponentOptions, type ViewOptions, type ViewResult, type VuegcStyle, type VuegcTemplate } from "../dist/vueg";
 
 const root = path.join(__dirname, "..");
 const pkg = JSON.parse(fs.readFileSync(path.join(root, "package.json"), "utf-8"));
@@ -33,6 +33,9 @@ describe("TypeScript declarations", () => {
         expectTypeOf<ViewResult["route"]>().toEqualTypeOf<{ path: string; name: string; router: string } | null>();
         expectTypeOf<ViewOptions["route"]>().toEqualTypeOf<string | false | undefined>();
         expectTypeOf<"scss">().toExtend<VuegcStyle>();
+        expectTypeOf<VuegcTemplate>().toEqualTypeOf<"html" | "pug">();
+        expectTypeOf<{ name: "Card"; test: true; story: true; template: "pug" }>().toExtend<ComponentOptions>();
+        expectTypeOf<{ name: "Home"; test: true; story: true; route: false }>().toExtend<ViewOptions>();
         expectTypeOf<{ name: "Card"; ts: true; props: ["title"] }>().toExtend<ComponentOptions>();
         // @ts-expect-error: name is required
         expectTypeOf<{ ts: true }>().toExtend<ComponentOptions>();
