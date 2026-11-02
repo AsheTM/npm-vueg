@@ -20,6 +20,7 @@ The package is `@ashetm/vueg`, the command is `vueg`. Or run it without installi
 |---|---|
 | `vueg component` | Generate a Vue component |
 | `vueg view` | Generate a view in `src/views/` and add its route to the router |
+| `vueg service` | Generate a service, a module of API calls, in `src/services/` |
 | `vueg help`, `vueg`, `--help`, `-h` | Show the commands |
 
 `vueg <command>` without flags, or with `--help` / `-h`, shows the help of that command. An unknown command exits with code `1`.
@@ -134,6 +135,67 @@ In `src/router/index.js` (create-vue project, Vue Router 4):
 
 **Nothing is written if something is wrong**: no router, no `routes` array, a route path or name already used, an invalid `--route`, or a view that can't be generated (e.g. it exists, without `--force`) → the reason is printed, exit code `1`, project unchanged. `--dry-run` prints the view and the route without writing anything.
 
+## `vueg service`
+
+A service keeps the API calls out of the components: a module of functions using `fetch`.
+
+``` sh
+vueg service --name User [--path folder] [--ts] [--test] [--blank] [--force] [--dry-run]
+```
+
+| Flag | Description | Default |
+|---|---|---|
+| `--name` | **Required.** Name of the service: `User`, `user` or `user.service` give `user.service.js`, `UserProfile` gives `user-profile.service.js` | |
+| `--path` | Folder inside `src/`, created if missing | `services` |
+| `--ts` | TypeScript: `user.service.ts`, with typed functions | `false` |
+| `--test` | Also write a [Vitest](https://vitest.dev) test next to it: `user.service.spec.js` | `false` |
+| `--blank` | An empty module, without the API calls | `false` |
+| `--force` | Overwrite the service (and its test) if they exist | `false` |
+| `--dry-run` | Print the files instead of writing them | `false` |
+
+`vueg service --name User` generates `src/services/user.service.js`:
+
+``` js
+// user service: the API calls about user
+const BASE_URL = "/api/user";
+
+/** Send a request to the API and return its JSON (null for 204 No Content); throw on an HTTP error. */
+async function request(path = "", options = {}) {
+    const response = await fetch(BASE_URL + path, {
+        ...options,
+        headers: { "Content-Type": "application/json", ...options.headers }
+    });
+    if (!response.ok) {
+        throw new Error(`${options.method ?? "GET"} ${BASE_URL + path} failed: ${response.status}`);
+    }
+    return response.status === 204 ? null : response.json();
+}
+
+export function getAll() {
+    return request();
+}
+
+export function getById(id) {
+    return request(`/${id}`);
+}
+
+export function create(data) {
+    return request("", { method: "POST", body: JSON.stringify(data) });
+}
+
+export function update(id, data) {
+    return request(`/${id}`, { method: "PUT", body: JSON.stringify(data) });
+}
+
+export function remove(id) {
+    return request(`/${id}`, { method: "DELETE" });
+}
+```
+
+Change `BASE_URL` to your API, then use it in a component: `import { getAll } from "@/services/user.service"`. With `--ts`, the functions take a type for the data: `getAll<User>()` returns a `Promise<User[]>`. The test of `--test` stubs `fetch`, so it runs without a server.
+
+Nothing is written if the service or its test exists (without `--force`), with an invalid name, or a `--path` outside `src/`.
+
 ## Library
 
 Since 2.1.0, vueg's commands are also functions, with options instead of flags. TypeScript declarations are included.
@@ -143,7 +205,7 @@ npm install @ashetm/vueg
 ```
 
 ``` js
-const { component, view, errorMessage } = require("@ashetm/vueg");
+const { component, view, service, errorMessage } = require("@ashetm/vueg");
 
 try {
     component({ name: "Card", ts: true, props: ["title"], cwd: "/path/to/project" });
@@ -163,7 +225,8 @@ try {
 |---|---|---|---|
 | `component(options)` | `vueg component` | [vuegc's options](https://github.com/AsheTM/npm-vuegc#use-as-a-library): `name` (required), `style`, `path`, `props`, `emits`, `ts`, `optionsApi`, `template`, `test`, `story`, `force`, `dryRun`, `cwd`… | the component's path |
 | `view(options)` | `vueg view` | the same, `path` inside `src/views/`, and `route`: a path starting with `/`, or `false` for no route (default: the view's folder and name in kebab-case) | `{ file, route }`: the view's path, and the route added (`{ path, name, router }`, or `null` with `route: false`) |
-| `errorMessage(err)` | | an error thrown by `component()` or `view()` | the message the CLI prints for it |
+| `service(options)` | `vueg service` | `name` (required), `path`, `ts`, `test`, `blank`, `force`, `dryRun`, `cwd` | the service's path |
+| `errorMessage(err)` | | an error thrown by `component()`, `view()` or `service()` | the message the CLI prints for it |
 
 - Both functions **throw** on failure, with the project unchanged. Their errors are plain objects, as in vuegc: `errorMessage()` gives their message, and prints nothing.
 - Like the CLI, they print their progress (`> Generating vue component success`, `> Route … added`). `cwd` is the project's root (default: the current directory).

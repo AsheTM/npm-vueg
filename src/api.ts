@@ -1,10 +1,12 @@
 // Library API: vueg's commands as functions, with options instead of flags
 import { vuegc, errorHandler, type VuegcOptions, type VuegcError } from "vuegc";
 import { isVuegError } from "./errors";
+import { createService, type ServiceOptions } from "./service";
 import { createView, viewPath, type ViewResult } from "./view";
 
 export type { VuegcStyle, VuegcTemplate } from "vuegc";
 export type { ViewResult, ViewRoute } from "./view";
+export type { ServiceOptions } from "./service";
 
 /** Options of `component()`: vuegc's options (`dryRun` → `--dry-run`, `cssModule` → `--module`, …). */
 export type ComponentOptions = VuegcOptions;
@@ -37,6 +39,16 @@ export function view(options: ViewOptions): ViewResult {
     const { route, ...rest } = options;
     const cwd = options.cwd ?? process.cwd();
     return createView({ ...rest, cwd, path: viewPath(options.path) }, route ?? null, cwd);
+}
+
+/**
+ * Generate a service (a module of API calls) in `src/services/`, like `vueg service`.
+ * @returns Path of the service (also with `dryRun`, where nothing is written).
+ * @throws An error for `errorMessage()`: an invalid name, a path outside `src/`, not a Vue project,
+ * the service or its test already exists (without `force`).
+ */
+export function service(options: ServiceOptions): string {
+    return createService(options);
 }
 
 /** Thrown in place of process.exit() while errorHandler() runs. */
