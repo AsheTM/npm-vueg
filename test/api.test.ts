@@ -51,6 +51,15 @@ describe("component()", () => {
         expect(card).toMatch(/<style lang="scss" scoped>/);
     });
 
+    it("writes the test and the story with test and story, in Pug with template", () => {
+        const file = component({ name: "Card", test: true, story: true, template: "pug", ts: true, cwd: project });
+
+        expect(file).toBe(path.join(project, "src", "Card.vue"));
+        expect(readComponent(project, "Card.vue")).toContain('<template lang="pug">');
+        expect(readComponent(project, "Card.spec.ts")).toContain('import Card from "./Card.vue";');
+        expect(readComponent(project, "Card.stories.ts")).toContain("satisfies Meta<typeof Card>");
+    });
+
     it("writes nothing with dryRun", () => {
         expect(component({ name: "Card", dryRun: true, cwd: project })).toBe(path.join(project, "src", "Card.vue"));
         expect(readComponent(project, "Card.vue")).toBeNull();
@@ -126,6 +135,9 @@ describe("errorMessage()", () => {
         { label: "an unsupported style",    setup: () => {},                                        options: { name: "Card", style: "styl" },   args: ["--name", "Card", "--style", "styl"] },
         { label: "an invalid prop",         setup: () => {},                                        options: { name: "Card", props: ["1st"] },  args: ["--name", "Card", "--props", "1st"] },
         { label: "a path outside src/",     setup: () => {},                                        options: { name: "Card", path: "../x" },    args: ["--name", "Card", "--path", "../x"] },
+        { label: "an existing test",        setup: () => fs.writeFileSync(path.join(project, "src", "Card.spec.js"), ""), options: { name: "Card", test: true }, args: ["--name", "Card", "--test"] },
+        { label: "a template-less component that wouldn't compile", setup: () => {},               options: { name: "Card", noTemplate: true }, args: ["--name", "Card", "--no-template"] },
+        { label: "an unsupported template", setup: () => {},                                        options: { name: "Card", template: "jade" }, args: ["--name", "Card", "--template", "jade"] },
     ])("gives the CLI's message for $label", ({ setup, options, args }) => {
         setup();
         const error = thrown(() => component({ ...options, cwd: project } as Parameters<typeof component>[0]));

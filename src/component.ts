@@ -1,4 +1,4 @@
-import { vuegc, type VuegcOptions, type VuegcStyle } from "vuegc";
+import { vuegc, type VuegcOptions, type VuegcStyle, type VuegcTemplate } from "vuegc";
 import { getValue, isOn, parseList } from "./args";
 
 /**
@@ -25,6 +25,7 @@ export function componentOptions(flags: readonly string[], cwd: string = process
         name,
         style:      passOn(getValue(flags, "--style")) as VuegcStyle | undefined,
         scoped:     getValue(flags, "--scoped") !== "false",
+        template:   passOn(getValue(flags, "--template")) as VuegcTemplate | undefined,
         path:       passOn(getValue(flags, "--path")),
         blank:      isOn(getValue(flags, "--blank")),
         force:      isOn(getValue(flags, "--force")),
@@ -37,6 +38,8 @@ export function componentOptions(flags: readonly string[], cwd: string = process
         emits:      emits === null ? undefined : parseList(emits),
         optionsApi: isOn(getValue(flags, "--options")),
         ts:         isOn(getValue(flags, "--ts")),
+        test:       isOn(getValue(flags, "--test")),
+        story:      isOn(getValue(flags, "--story")),
         cwd,
     };
 }

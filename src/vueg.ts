@@ -7,7 +7,7 @@ import { generateView } from "./view";
 
 // Library API: require("@ashetm/vueg")
 export { component, view, errorMessage } from "./api";
-export type { ComponentOptions, ViewOptions, ViewResult, ViewRoute, VuegcStyle } from "./api";
+export type { ComponentOptions, ViewOptions, ViewResult, ViewRoute, VuegcStyle, VuegcTemplate } from "./api";
 
 /** Commands of vueg: their help, and what they generate (returns the path of the file). */
 const COMMANDS: Record<string, { help: () => string; generate: (flags: readonly string[]) => string }> = {
