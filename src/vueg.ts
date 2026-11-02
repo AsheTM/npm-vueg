@@ -2,17 +2,19 @@
 import { getValue } from "./args";
 import { generateComponent } from "./component";
 import { handleError } from "./errors";
-import { mainHelp, componentHelp, viewHelp } from "./help";
+import { mainHelp, componentHelp, viewHelp, serviceHelp } from "./help";
+import { generateService } from "./service";
 import { generateView } from "./view";
 
 // Library API: require("@ashetm/vueg")
-export { component, view, errorMessage } from "./api";
-export type { ComponentOptions, ViewOptions, ViewResult, ViewRoute, VuegcStyle, VuegcTemplate } from "./api";
+export { component, view, service, errorMessage } from "./api";
+export type { ComponentOptions, ViewOptions, ViewResult, ViewRoute, ServiceOptions, VuegcStyle, VuegcTemplate } from "./api";
 
 /** Commands of vueg: their help, and what they generate (returns the path of the file). */
 const COMMANDS: Record<string, { help: () => string; generate: (flags: readonly string[]) => string }> = {
     component:  { help: componentHelp,  generate: generateComponent },
     view:       { help: viewHelp,       generate: generateView },
+    service:    { help: serviceHelp,    generate: generateService },
 };
 
 /**
